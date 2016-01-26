@@ -1,0 +1,91 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app='legal'>
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+
+    <title>Legal Information App</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
+    <script src="legal.module.js"></script>
+    <script src="main.controller.js"></script>
+    <script src="auth.module.js"></script>
+    <script src="authFactory.js"></script>
+    <script src="auth.loginController.js"></script>
+    <script src="auth.logoutController.js"></script>
+    <script src="auth.registerController.js"></script>
+
+ <style>
+    div.spacer
+        {
+            font-size: 0; 
+            height: 20px;
+            line-height: 0;
+        }
+    </style>
+
+</head>
+
+<body ng-controller="mainController">
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h3> Current Firms </h3>
+            <div class="container">
+                {{firms}}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="clickGetFirmsButton()"> Get Current Firms
+            </button>
+
+            <h3> Search For Current Firms By Name</h3> 
+            <div>
+                <input ng-model="nameForLegalSearch"></input>
+            </div>
+            
+            <div class="spacer"> </div> 
+
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="clickSearchFirmsButton(nameForLegalSearch)"> Search for Firm
+            </button>
+
+            <div class="container">
+                {{searchFirms}}
+            </div>
+
+            <div class="spacer"> </div> 
+
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3> Add New Firm</h3>
+                    <form novalidate>
+                        Firm Name:<br>
+                        <input type="text" ng-model="firmadd.name"><br>
+                        Firm URL:<br>
+                        <input type="text" ng-model="firmadd.url"> <br>
+                        <div class="spacer"> </div> 
+                        <button ng-click="addFirm()">ADD</button>
+                        <button ng-click="reset()">RESET</button>
+                  </form>
+                  <h3>{{firmaddresult}}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+
+
+</body>
+
+
+</html>
