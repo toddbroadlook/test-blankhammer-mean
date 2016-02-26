@@ -96,11 +96,15 @@ function query_database_firmname(req,res,firmname) {
 
 //Router config
 router.use(express.static('public'));
+router.use(require('cookie-parser')());
+router.use(require('body-parser').urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
+  //dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev
+    secret: 'ygzVmA1uIMf51x5e1pB10QH8yX9iBCjMKag7tL4A7Lk',
+    resave: true,
+    saveUninitialized: true,
+    cookie : {}
 }));
 router.use(passport.initialize());
 router.use(passport.session());
@@ -136,6 +140,7 @@ router.post('/user/register', function(req,res) {
         console.log("foo");
         return res.status(401).json({err: err});
       } else {
+
         return res.status(200).json({status: 'Login successful!'});
       } 
    } )(req, req.body.username, req.body.password)
@@ -177,7 +182,7 @@ router.post('/user/login', function(req, res, next) {
   })(req, req.body.username, req.body.password);
 });
 
-router.get('/logout', function(req, res) {
+router.get('/user/logout', function(req, res) {
   req.logout();
   res.status(200).json({status: 'Bye!'});
 });
@@ -188,16 +193,16 @@ router.get('/logout', function(req, res) {
 //Database Access--------------------------------------------------------
 
 
-  router.get("/retrieveFirms",function(req,res){-
+  router.get("/retrieveFirms",isLoggedIn,function(req,res){-
           handle_database(req,res);
   });
 
-  router.get("/searchFirms/:name",function(req,res){-
+  router.get("/searchFirms/:name",isLoggedIn,function(req,res){-
           console.log("Name " + req.params.name);
           query_database_firmname(req,res,req.params.name);
   });
 
-  router.post('/firm', function(req,res) {
+  router.post('/firm', isLoggedIn, function(req,res) {
           console.log("Adding a firm");
           var firm = {"name" : req.body.name, "url": req.body.url};
           database_firmcreate(req,res, firm);
@@ -208,7 +213,16 @@ router.get('/logout', function(req, res) {
           res.sendFile('public/main.html' , { root : __dirname}); // load the single view file (angular will handle the page changes on the front-end)
  });
 
+// route middleware to make sure
+function isLoggedIn(req, res, next) {
 
+  // if user is authenticated in the session, carry on
+  if (req.isAuthenticated())
+    return next();
+  console.log("Auth fail")
+  // if they aren't redirect them to the home page
+  res.redirect('/home');
+}
 
  router.listen(8020);
 
