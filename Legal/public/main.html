@@ -8,12 +8,12 @@
 
     <title>Legal Information App</title>
 
-    <!-- SCROLLS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
-
-
-    <!-- SPELLS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"><!-- load bootstrap css -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script><!-- load bootstrap js -->
+
+
+
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script><!-- load angular -->
     <script src="legal.module.js"></script>
     <script src="main.controller.js"></script>
@@ -22,6 +22,7 @@
     <script src="auth.loginController.js"></script>
     <script src="auth.logoutController.js"></script>
     <script src="auth.registerController.js"></script>
+
 
  <style>
     div.spacer
@@ -35,27 +36,31 @@
 </head>
 
 <body ng-controller="mainController">
-
-    <div class="col-md-4">
-      <h1>
-        Login
-      </h1>
-      <div ng-show="error" class="alert alert-danger"></div>
-      <form class="form" ng-submit="login()">
-        <div class="form-group">
-          <label>Username</label> <input type="text" class="form-control" name=
-          "username" ng-model="loginForm.username" required="">
+    <div class="row" ng-controller="loginController">
+        <div class="col-md-4 col-md-offset-2">
+          <div ng-show="error" class="alert alert-danger"></div>
+          <a data-toggle="collapse" href="#logincontainer">Login</a>
+          <div id="logincontainer" class="collapse">
+              <form class="form" ng-submit="login()">
+                <div class="form-group">
+                  <label>Username</label> <input type="text" class="form-control" name=
+                  "username" ng-model="loginForm.username" required="">
+                </div>
+                <div class="form-group">
+                  <label>Password</label> <input type="password" class="form-control"
+                  name="password" ng-model="loginForm.password" required="">
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-default" ng-disabled=
+                  "disabled">Login</button>
+                  <button type="submit" class="btn btn-default" ng-disabled=
+                  "disabled">Register</button>
+                </div>
+              </form>
+          </div>
         </div>
-        <div class="form-group">
-          <label>Password</label> <input type="password" class="form-control"
-          name="password" ng-model="loginForm.password" required="">
-        </div>
-        <div>
-          <button type="submit" class="btn btn-default" ng-disabled=
-          "disabled">Login</button>
-        </div>
-      </form>
     </div>
+    
 	
     <div class="row">
         <div class="col-md-2"></div>

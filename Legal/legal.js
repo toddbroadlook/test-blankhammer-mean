@@ -4,7 +4,7 @@
  var bodyParser =   require('body-parser');
  var expressSession = require('express-session');
  var passport =     require('passport');
- var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+ //var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
  var db =           require('./config/database.js');
  var pool =         db.pool;
  //var User = require('./models/user.js');

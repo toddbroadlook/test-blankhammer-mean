@@ -1,11 +1,9 @@
 angular
 	.module('auth')
-	.controller('loginController', ['$scope', '$location', 'AuthService',loginController]);
+	.controller('loginController', ['$scope', '$http',loginController]);
 
   
-  function loginController ($scope, $location, AuthService) {
-
-    console.log(AuthService.getUserStatus());
+  function loginController ($scope, $http) {
 
     $scope.login = function () {
 
@@ -13,21 +11,16 @@ angular
       $scope.error = false;
       $scope.disabled = true;
 
-      // call login from service
-      AuthService.login($scope.loginForm.username, $scope.loginForm.password)
-        // handle success
-        .then(function () {
-          $location.path('/');
-          $scope.disabled = false;
-          $scope.loginForm = {};
+      /*var data = $.param({
+        json: JSON.stringify({
+            username: $scope.loginForm.username,
+            password: $scope.loginForm.password
         })
-        // handle error
-        .catch(function () {
-          $scope.error = true;
-          $scope.errorMessage = "Invalid username and/or password";
-          $scope.disabled = false;
-          $scope.loginForm = {};
-        });
+      });*/
+      
+    var data = {"username" : $scope.loginForm.username, "password" : $scope.loginForm.password};
+    console.log(data);
+    $http.post('/user/login', data);
 
     };
 
