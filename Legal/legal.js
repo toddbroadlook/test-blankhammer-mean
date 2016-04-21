@@ -4,6 +4,7 @@
  var bodyParser =   require('body-parser');
  var expressSession = require('express-session');
  var passport =     require('passport');
+ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
  var db =           require('./config/database.js');
  var pool =         db.pool;
  //var User = require('./models/user.js');
@@ -106,30 +107,57 @@ router.use(require('express-session')({
     saveUninitialized: true,
     cookie : {}
 }));
+
+
+////Authorization with Google ---------------------------------------
+//
+//// Use the GoogleStrategy within Passport.
+////   Strategies in Passport require a `verify` function, which accept
+////   credentials (in this case, an accessToken, refreshToken, and Google
+////   profile), and invoke a callback with a user object.
+//passport.use(new GoogleStrategy({
+//    clientID: GOOGLE_CLIENT_ID,
+//    clientSecret: GOOGLE_CLIENT_SECRET,
+//    callbackURL: "http://www.example.com/auth/google/callback"
+//  },
+//  function(accessToken, refreshToken, profile, done) {
+//       User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//         return done(err, user);
+//       });
+//  }
+//));
+//
+//// GET /auth/google
+////   Use passport.authenticate() as route middleware to authenticate the
+////   request.  The first step in Google authentication will involve
+////   redirecting the user to google.com.  After authorization, Google
+////   will redirect the user back to this application at /auth/google/callback
+//router.get('/auth/google',
+//  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+//
+//// GET /auth/google/callback
+////   Use passport.authenticate() as route middleware to authenticate the
+////   request.  If authentication fails, the user will be redirected back to the
+////   login page.  Otherwise, the primary route function function will be called,
+////   which, in this example, will redirect the user to the home page.
+//router.get('/auth/google/callback', 
+//  passport.authenticate('google', { failureRedirect: '/login' }),
+//  function(req, res) {
+//    res.redirect('/');
+//  });
+
+
 router.use(passport.initialize());
 router.use(passport.session());
 require('./config/passport')(passport); // pass passport for configuration
  
 //Authorization ---------------------------------------
-
-
-/*router.post('/user/register', passport.authenticate('local-signup', {
-    successRedirect : '/home', // redirect to the secure profile section
-    failureRedirect : '/user/register'//, // redirect back to the signup page if there is an error
-    //failureFlash : true // allow flash messages
-  }),         function(req, res) {
-            console.log("hello");
-
-            if (req.body.remember) {
-              req.session.cookie.maxAge = 1000 * 60 * 3;
-            } else {
-              req.session.cookie.expires = false;
-            }
-        res.redirect('/')});
+/*
+{
+  "username": "toddschmitt@gmail.com",
+  "password": "foobar"
+}
 */
-
-
-
 router.post('/user/register', function(req,res) {
    console.log("register route")
    return passport.authenticate('local-signup',
@@ -145,23 +173,6 @@ router.post('/user/register', function(req,res) {
       } 
    } )(req, req.body.username, req.body.password)
  });
-/*
- passport.authenticate('local-signup', {
-    successRedirect : '/home', // redirect to the secure profile section
-    failureRedirect : '/user/register'//, // redirect back to the signup page if there is an error
-    //failureFlash : true // allow flash messages
-  }));
- */
-
-  //User.register(new User({ username: req.body.username }), req.body.password, function(err, account) {
-  //  if (err) {
-  //    return res.status(500).json({err: err});
-  //  }
-  //  passport.authenticate('local')(req, res, function () {
-  //    return res.status(200).json({status: 'Registration successful!'});
-  //  });
-  //});
-//});
 
 router.post('/user/login', function(req, res, next) {
   console.log("login route")
