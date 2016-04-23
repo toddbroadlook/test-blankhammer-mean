@@ -20,8 +20,8 @@
 
  
  function handle_database(req,res) {
-      console.log(db);
-       console.log(pool);
+    //console.log(db);
+    //console.log(pool);
      pool.getConnection(function(err,connection){
          if (err) {
            connection.release();
@@ -204,11 +204,12 @@ router.get('/user/logout', function(req, res) {
 //Database Access--------------------------------------------------------
 
 
-  router.get("/retrieveFirms",isLoggedIn,function(req,res){-
-          handle_database(req,res);
+  router.get("/retrieveFirms",isLoggedIn,function(req,res){
+	console.log(req.session.passport.user)  
+    handle_database(req,res);
   });
 
-  router.get("/searchFirms/:name",isLoggedIn,function(req,res){-
+  router.get("/searchFirms/:name",isLoggedIn,function(req,res){
           console.log("Name " + req.params.name);
           query_database_firmname(req,res,req.params.name);
   });

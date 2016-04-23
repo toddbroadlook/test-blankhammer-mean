@@ -18,11 +18,7 @@
     <script src="legal.module.js"></script>
     <script src="main.controller.js"></script>
     <script src="auth.module.js"></script>
-    <script src="authFactory.js"></script>
-    <script src="auth.loginController.js"></script>
-    <script src="auth.logoutController.js"></script>
-    <script src="auth.registerController.js"></script>
-
+    <script src="auth.authController.js"></script>
 
  <style>
     div.spacer
@@ -36,11 +32,12 @@
 </head>
 
 <body ng-controller="mainController">
-    <div class="row" ng-controller="loginController">
+    <div class="row" ng-controller="authController">
         <div class="col-md-4 col-md-offset-2">
-          <div ng-show="error" class="alert alert-danger"></div>
+
           <a data-toggle="collapse" href="#logincontainer">Login</a>
           <div id="logincontainer" class="collapse">
+		      <div ng-show="login_message_show" class="alert alert-danger">{{login_message}}</div>
               <form class="form" ng-submit="login()">
                 <div class="form-group">
                   <label>Username</label> <input type="text" class="form-control" name=
@@ -53,7 +50,7 @@
                 <div>
                   <button type="submit" class="btn btn-default" ng-disabled=
                   "disabled">Login</button>
-                  <button type="submit" class="btn btn-default" ng-disabled=
+                  <button ng-click="register()" class="btn btn-default" ng-disabled=
                   "disabled">Register</button>
                 </div>
               </form>
