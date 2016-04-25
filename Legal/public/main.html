@@ -35,8 +35,8 @@
     <div class="row" ng-controller="authController">
         <div class="col-md-4 col-md-offset-2">
 
-          <a data-toggle="collapse" href="#logincontainer">Login</a>
-          <div id="logincontainer" class="collapse">
+          <a ng-click="toggle_login_show()">Login</a>
+          <div id="logincontainer" ng-show="login_show" >
 		      <div ng-show="login_message_show" class="alert alert-danger">{{login_message}}</div>
               <form class="form" ng-submit="login()">
                 <div class="form-group">
@@ -55,6 +55,7 @@
                 </div>
               </form>
           </div>
+		  <p ng-show="logged_in_as_show" >Logged in as: {{logged_in_as}}</p>
         </div>
     </div>
     

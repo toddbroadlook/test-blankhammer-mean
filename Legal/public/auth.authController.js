@@ -2,9 +2,18 @@ angular
 	.module('auth')
 	.controller('authController', ['$scope', '$http',authController]);
 
+ 
   
   function authController ($scope, $http) {
 
+    $scope.login_show = true;
+	$scope.logged_in_as_show = false;
+	$scope.logged_in_as = "";
+  
+    $scope.toggle_login_show = function() {
+		$scope.login_show = !$scope.login_show;
+	};	 
+  
     $scope.login = function () {
 
 		// initial values
@@ -18,8 +27,10 @@ angular
 			// this callback will be called asynchronously
 			// when the response is available
 			if (response.status == 200) {
-				$scope.login_message_show = true;
-				$scope.login_message = "Success -- Logged in!"
+				$scope.login_show = false;
+				$scope.logged_in_as = $scope.loginForm.username;
+				$scope.logged_in_as_show = true;
+
 			} else {
 				$scope.login_message_show = true;
 				$scope.login_message = "Login Failure!"

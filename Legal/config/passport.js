@@ -62,7 +62,6 @@ module.exports = function(passport) {
                     console.log("Got into signup3");
                     //console.log(req);
 
-                    console.log(done);
                     return done("Username already in use", false);
                 } else {
                     // if there is no user with that username

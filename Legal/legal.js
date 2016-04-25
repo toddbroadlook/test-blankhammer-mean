@@ -9,15 +9,6 @@
  var pool =         db.pool;
  //var User = require('./models/user.js');
 
- /*var pool      =    mysql.createPool({
-     connectionLimit : 100, //important
-     host     : 'localhost',
-     user     : 'root',
-     password : 'redcoats',
-     database : 'test',
-     debug    :  false
- });*/
-
  
  function handle_database(req,res) {
     //console.log(db);
