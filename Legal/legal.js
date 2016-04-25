@@ -3,7 +3,7 @@
  var path      =    require("path");
  var bodyParser =   require('body-parser');
  var expressSession = require('express-session');
- var passport =     require('passport');
+
  //var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
  var db =           require('./config/database.js');
  var pool =         db.pool;
@@ -115,32 +115,40 @@ router.use(require('express-session')({
 var authentication = require('./authentication.js');
 authentication.set(router);
 
+//Authorization
+var authorization = require('./authorization.js');
 
 
 
 //Database Access--------------------------------------------------------
 
+ // application -------------------------------------------------------------
+ router.get('/home', function(req, res) {
+          res.sendFile('public/main.html' , { root : __dirname}); // load the single view file (angular will handle the page changes on the front-end)
+ });
 
-  router.get("/retrieveFirms",isLoggedIn,function(req,res){
-	console.log(req.session.passport.user)  
-    handle_database(req,res);
+router.use(isLoggedIn)
+router.use(isAdmin)
+  router.get("/retrieveFirms", function(req,res){
+	//if(isAdmin(req)) {
+		console.log(req.session.passport.user);  
+		handle_database(req,res);
+	//} else
+	//	console.log("Fail")  
   });
 
-  router.get("/searchFirms/:name",isLoggedIn,function(req,res){
+  router.get("/searchFirms/:name", function(req,res){
           console.log("Name " + req.params.name);
           query_database_firmname(req,res,req.params.name);
   });
 
-  router.post('/firm', isLoggedIn, function(req,res) {
+  router.post('/firm', function(req,res) {
           console.log("Adding a firm");
           var firm = {"name" : req.body.name, "url": req.body.url};
           database_firmcreate(req,res, firm);
  });
 
- // application -------------------------------------------------------------
- router.get('/home', function(req, res) {
-          res.sendFile('public/main.html' , { root : __dirname}); // load the single view file (angular will handle the page changes on the front-end)
- });
+
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
@@ -148,9 +156,28 @@ function isLoggedIn(req, res, next) {
   // if user is authenticated in the session, carry on
   if (req.isAuthenticated())
     return next();
-  console.log("Auth fail")
+  console.log("Auth fail");
   // if they aren't redirect them to the home page
   res.redirect('/home');
+}
+
+function isAdmin(req, res, next) {
+
+  // if user is authenticated in the session, carry on
+  authorization.checkUserAccess(req.session.passport.user, 'admin', function(isAdmin) {
+    if(isAdmin){
+		console.log("Authorized");
+		return next();
+	}
+	else {
+		console.log("Not Authorized");
+		//console.log(authorization.checkUserAccess(req.session.passport.user, 'admin'))
+		// if they aren't redirect them to the home page
+		res.redirect('/home');
+	}
+  
+  });
+
 }
 
  router.listen(8020);

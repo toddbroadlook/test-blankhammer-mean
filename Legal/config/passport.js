@@ -111,7 +111,7 @@ module.exports = function(passport) {
                 // if the user is found but the password is wrong
                 if (!bcrypt.compareSync(password, rows[0].password))
                     return done(null, false, { message: 'Incorrect username or password' }); // create the loginMessage and save it to session as flashdata
-                console.log("All is well, logged in" + rows[0].username)
+                console.log("All is well, logged in " + rows[0].username)
                 // all is well, return successful user
                 return done(null, rows[0]);
             });

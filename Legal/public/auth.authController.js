@@ -48,7 +48,22 @@ angular
       
     var data = {"username" : $scope.loginForm.username, "password" : $scope.loginForm.password};
     console.log(data);
-    $http.post('/user/register', data);
+    $http.post('/user/register', data).then(function successCallback(response) {
+			// this callback will be called asynchronously
+			// when the response is available
+			if (response.status == 200) {
+				$scope.login_message_show = true;
+				$scope.login_message = "Success -- Registered!"
+			} else {
+				$scope.login_message_show = true;
+				$scope.login_message = "Register Failure!"
+			}
+		}, function errorCallback(response) {
+			// called asynchronously if an error occurs
+			// or server returns response with an error status.
+	        $scope.login_message_show = true;
+			$scope.login_message = "Register Failure! " + response.data.err.message;
+		});;
 
     };
 	
