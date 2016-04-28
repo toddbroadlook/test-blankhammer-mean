@@ -22,7 +22,7 @@
  
          console.log('connected as id ' + connection.threadId);
          
-         connection.query("select * from firms",function(err,rows){
+         connection.query("select firmid, name, website, city, state from firms where active=1",function(err,rows){
              connection.release();
              if(!err) {
                  res.json(rows);
@@ -47,7 +47,7 @@ function query_database_firmname(req,res,firmname) {
  
          console.log('connected as id ' + connection.threadId);
          
-         connection.query("select * from firms where firmname like \"%" + firmname +  "%\" " ,function(err,rows){
+         connection.query("select firmid, name, website, city, state from firms where name like \"%" + firmname +  "%\" and active=1" ,function(err,rows){
              connection.release();
              if(!err) {
                  res.json(rows);

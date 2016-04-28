@@ -2,6 +2,7 @@
   "name": "blankhammer",
   "version": "0.0.1",
   "dependencies": {
+    "angular-ui-grid": "^3.1.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.5.2",
     "cookie-parser": "^1.4.1",
