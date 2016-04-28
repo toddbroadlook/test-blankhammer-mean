@@ -4,10 +4,7 @@ angular
 
 function mainController( $scope, $http) {
     
-    $scope.myData = [
-        {
-            "firstName": "Cox",
-        "lastName": "Carney"}];
+    $scope.myData = mockdata;
     
     $scope.nameForLegalSearch = "";
     // when landing on the page, get all todos and show them
