@@ -3,6 +3,12 @@ angular
     .controller('mainController', mainController);
 
 function mainController( $scope, $http) {
+    
+    $scope.myData = [
+        {
+            "firstName": "Cox",
+        "lastName": "Carney"}];
+    
     $scope.nameForLegalSearch = "";
     // when landing on the page, get all todos and show them
     $scope.clickGetFirmsButton = function() { $http.get('/retrieveFirms')

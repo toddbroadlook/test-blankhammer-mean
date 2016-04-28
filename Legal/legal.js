@@ -90,6 +90,7 @@ function query_database_firmname(req,res,firmname) {
  
 //Router config
 router.use(express.static('public'));
+router.use(express.static('node_modules'));
 router.use(require('cookie-parser')());
 router.use(require('body-parser').urlencoded({ extended: true }));
 router.use(bodyParser.json());

@@ -1,1 +1,1 @@
-angular.module('legal', ['auth']);
+angular.module('legal', ['auth','ui.grid']);
