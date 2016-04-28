@@ -1,10 +1,10 @@
 angular
-	.module('auth')
-	.controller('authController', ['$scope', '$http',authController]);
+    .module('auth')
+    .controller('authController', authController);
 
  
   
-  function authController ($scope, $http) {
+function authController ($scope, $http) {
 
     $scope.login_show = true;
 	$scope.logged_in_as_show = false;

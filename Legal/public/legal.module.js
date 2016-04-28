@@ -1,1 +1,1 @@
-angular.module('legal', []);
+angular.module('legal', ['auth']);
