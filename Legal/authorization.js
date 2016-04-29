@@ -11,11 +11,11 @@ module.exports.checkUserAccess = function(userid, privilege,done) {
            return;
         }   
  
-        console.log('connected as id ' + connection.threadId);
+        //console.log('connected as id ' + connection.threadId);
          
         connection.query("SELECT * FROM user_authorization WHERE id = ? ",[userid], function(err, rows){
-			console.log("sent authorize query")
-			console.log(rows)
+			//console.log("sent authorize query")
+			//console.log(rows)
 			if (rows.length < 1)
 				return done(false);
 			var a = rows[0];

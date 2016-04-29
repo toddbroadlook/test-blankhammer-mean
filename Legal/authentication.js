@@ -22,7 +22,7 @@ module.exports.set = function(router) {
 	   function(err, account) {
 		 if (err) {
 			debugger;
-			console.log("foo");
+
 			return res.status(401).json({err: err});
 		  } else {
 

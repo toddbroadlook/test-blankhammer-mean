@@ -22,7 +22,7 @@
  
          console.log('connected as id ' + connection.threadId);
          
-         connection.query("select firmid, name, website, city, state from firms where active=1",function(err,rows){
+         connection.query("select firmid, name, website, city, state, postalcode from firms where active=1",function(err,rows){
              connection.release();
              if(!err) {
                  res.json(rows);
@@ -47,7 +47,7 @@ function query_database_firmname(req,res,firmname) {
  
          console.log('connected as id ' + connection.threadId);
          
-         connection.query("select firmid, name, website, city, state from firms where name like \"%" + firmname +  "%\" and active=1" ,function(err,rows){
+         connection.query("select firmid, name, website, city, state, postalcode from firms where name like \"%" + firmname +  "%\" and active=1" ,function(err,rows){
              connection.release();
              if(!err) {
                  res.json(rows);
@@ -122,11 +122,9 @@ var authorization = require('./authorization.js');
 router.use(isLoggedIn)
 router.use(isAdmin)
   router.get("/retrieveFirms", function(req,res){
-	//if(isAdmin(req)) {
-		console.log(req.session.passport.user);  
+
 		handle_database(req,res);
-	//} else
-	//	console.log("Fail")  
+
   });
 
   router.get("/searchFirms/:name", function(req,res){

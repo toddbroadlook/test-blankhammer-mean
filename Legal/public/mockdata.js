@@ -2,14 +2,14 @@
 var mockdata =
 [
   {
-    "FirmID": 2,
-    "Name": "Goldberg & Osborne",
-    "BaseFileName": "Goldberg-Osborne",
-    "Website": "1800theeagle.com",
-    "City": "Phoenix",
-    "State": "AZ",
-    "PostalCode": 0,
-    "Country": "US"
+    "firmid": 2,
+    "name": "Goldberg & Osborne",
+    "basefilename": "Goldberg-Osborne",
+    "website": "1800theeagle.com",
+    "city": "Phoenix",
+    "state": "AZ",
+    "postalcode": 0,
+    "country": "US"
   },
   {
     "FirmID": 7,

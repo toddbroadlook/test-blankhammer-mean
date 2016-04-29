@@ -22,14 +22,14 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        console.log("serialize user" + user.id);
+        //console.log("serialize user" + user.id);
         done(null, user.id);
 
     });
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        console.log("deserialize user");
+        //console.log("deserialize user");
         connection.query("SELECT * FROM login_users WHERE id = ? ",[id], function(err, rows){
             done(err, rows[0]);
         });
@@ -52,9 +52,9 @@ module.exports = function(passport) {
         function(username, password, done) {
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            console.log("Got into signup");
-            console.log(username);
-            console.log(password);
+            //console.log("Got into signup");
+            //console.log(username);
+            //console.log(password);
             connection.query("SELECT * FROM login_users WHERE username = ?",[username], function(err, rows) {
                 if (err)
                     return done(err);
@@ -98,8 +98,8 @@ module.exports = function(passport) {
             //passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function( username, password, done) { // callback with email and password from our form
-            console.log(username);
-            console.log(password);
+            //console.log(username);
+            //console.log(password);
             connection.query("SELECT * FROM login_users WHERE username = ?",[username], function(err, rows){
                 if (err)
                     return done(err);
@@ -110,7 +110,7 @@ module.exports = function(passport) {
                 // if the user is found but the password is wrong
                 if (!bcrypt.compareSync(password, rows[0].password))
                     return done(null, false, { message: 'Incorrect username or password' }); // create the loginMessage and save it to session as flashdata
-                console.log("All is well, logged in " + rows[0].username)
+                //console.log("All is well, logged in " + rows[0].username)
                 // all is well, return successful user
                 return done(null, rows[0]);
             });

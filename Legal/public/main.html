@@ -12,7 +12,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script><!-- load bootstrap js -->
 
-    <link rel="styleSheet" href="angular-ui-grid/ui-grid.min.css"/>
+    <link rel="styleSheet" href="angular-ui-grid/ui-grid.css"/>
     <link rel="stylesheet" href="legal.css">
     
 	
@@ -36,8 +36,10 @@
 </head>
 
 <body ng-controller="mainController">
+	<!--Login Form -->
+
     <div class="row" ng-controller="authController">
-        <div class="col-md-4 col-md-offset-2">
+        <div class="col-md-4 col-md-offset-1">
 
           <a ng-click="toggle_login_show()">Login</a>
           <div id="logincontainer" ng-show="login_show" >
@@ -65,40 +67,27 @@
     
 	
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <h3> Current Firms </h3>
-            <div class="container">
+        <div class="col-md-1"></div>
+        <div class="col-md-9">
+
+            <!--<div class="container">
                 {{firms}}
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-lg" ng-click="clickGetFirmsButton()"> Get Current Firms
-            </button>
-            
-            <div class="spacer"> </div> 
-            
-            <div ui-grid="{ data: myData }" class="myGrid"></div>
-            
-            <h3> Search For Current Firms By Name</h3> 
-            <div>
-                <input ng-model="nameForLegalSearch"></input>
-            </div>
-            
-            <div class="spacer"> </div> 
-
-            <button type="submit" class="btn btn-primary btn-lg" ng-click="clickSearchFirmsButton(nameForLegalSearch)"> Search for Firm
-            </button>
-
-            <div class="container">
-                {{searchFirms}}
-            </div>
-
-            <div class="spacer"> </div> 
-
-
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3> Add New Firm</h3>
+            </div>-->
+            <div class="row">
+				<div class="col-md-3">
+				    <h3> Current Firms </h3>
+				    <button type="submit" class="btn btn-primary btn-lg" ng-click="clickGetFirmsButton()"> Get Current Firms
+					</button>
+				</div>
+				<div class="col-md-3">
+					<h3> Search For Firm By Name</h3> 
+					<div>
+						<input ng-model="nameForLegalSearch"></input>
+					</div>
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="clickSearchFirmsButton(nameForLegalSearch)"> Search for Firm</button>
+				</div>
+				<div class="col-md-3">				
+				    <h3> Add New Firm</h3>
                     <form novalidate>
                         Firm Name:<br>
                         <input type="text" ng-model="firmadd.name"><br>
@@ -109,6 +98,32 @@
                         <button ng-click="reset()">RESET</button>
                   </form>
                   <h3>{{firmaddresult}}</h3>
+				</div>				
+			</div>
+
+			
+            <h3> Firm Count: {{firmCount}}</h3>
+			
+            <div class="spacer"> </div> 
+            
+            <div ui-grid="gridData" ui-grid-exporter class="myGrid"></div>
+            
+
+            
+            <div class="spacer"> </div> 
+
+            
+
+            <div class="container">
+                {{searchFirms}}
+            </div>
+
+            <div class="spacer"> </div> 
+
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
                 </div>
             </div>
         </div>
