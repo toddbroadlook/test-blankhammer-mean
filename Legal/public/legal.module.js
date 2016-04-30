@@ -1,1 +1,1 @@
-angular.module('legal', ['auth','ui.grid']);
+angular.module('legal', ['auth','ui.grid','ui.grid.exporter']);

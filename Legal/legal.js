@@ -7,6 +7,7 @@
  //var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
  var db =           require('./config/database.js');
  var pool =         db.pool;
+ var queries =      require('./config/queries.js')
  //var User = require('./models/user.js');
 
  
@@ -22,7 +23,7 @@
  
          console.log('connected as id ' + connection.threadId);
          
-         connection.query("select firmid, name, website, city, state, postalcode from firms where active=1",function(err,rows){
+         connection.query(queries.firm_age_size_team_query ,function(err,rows){
              connection.release();
              if(!err) {
                  res.json(rows);
@@ -47,7 +48,7 @@ function query_database_firmname(req,res,firmname) {
  
          console.log('connected as id ' + connection.threadId);
          
-         connection.query("select firmid, name, website, city, state, postalcode from firms where name like \"%" + firmname +  "%\" and active=1" ,function(err,rows){
+         connection.query("SELECT firmid, name, website, city, state, postalcode from firms where name like \"%" + firmname +  "%\" and active=1" ,function(err,rows){
              connection.release();
              if(!err) {
                  res.json(rows);

@@ -9,16 +9,24 @@ function mainController( $scope, $http) {
 		{name : "website"},
 		{name : "city"},
 		{name : "state"},
-		{name : "postalcode"},
-		{name : "country"}
+		{name : "contacts"},
+		{name : "dayssince"},
+		{name : "score"},
+		{name : "tier"},
+		{name : "teamid"}
 	];
 	
 	$scope.firmCount = '';
+	
 	
 	$scope.gridData = {
 		columnDefs: columnDefs1,
 		enableFiltering: true,
 		enableGridMenu: true,
+		exporterMenuCsv: true,
+		onRegisterApi: function( gridApi ){
+			console.log(gridApi);
+			$scope.gridApi = gridApi;},
 		data: []};
     //$scope.gridData.data = mockdata;
     
