@@ -164,7 +164,8 @@ function isAdmin(req, res, next) {
 		console.log("Not Authorized");
 		//console.log(authorization.checkUserAccess(req.session.passport.user, 'admin'))
 		// if they aren't redirect them to the home page
-		res.redirect('/home');
+		res.send(401)
+		//res.redirect('/home');
 	}
   
   });

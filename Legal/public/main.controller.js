@@ -25,10 +25,19 @@ function mainController( $scope, $http) {
 		enableGridMenu: true,
 		exporterMenuCsv: true,
 		onRegisterApi: function( gridApi ){
-			console.log(gridApi);
+			//console.log(gridApi);
 			$scope.gridApi = gridApi;},
 		data: []};
     //$scope.gridData.data = mockdata;
+	
+	
+    $scope.getFilteredRows=function(){
+		//var _renderedRows = $scope.gridApi.grid.renderContainers.body.renderedRows;
+		//$scope.filteredRows=_renderedRows;
+		return $scope.gridApi.core.getVisibleRows($scope.gridApi.grid);
+    };
+	
+	$scope.getFilteredRowCount= function(){ return $scope.getFilteredRows().length;};
     
     $scope.nameForLegalSearch = "";
     // when landing on the page, get all todos and show them
