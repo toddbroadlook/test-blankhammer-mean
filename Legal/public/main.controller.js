@@ -3,15 +3,19 @@ angular
     .controller('mainController', mainController);
 
 function mainController( $scope, $http, uiGridConstants) {
-	var numeric_filters = [
+	function makeNumericFilters() {
+		var filter = [
+	    {
+          condition: uiGridConstants.filter.LESS_THAN,
+          placeholder: 'lt<'
+        },
         {
           condition: uiGridConstants.filter.GREATER_THAN,
           placeholder: 'gt>'
-        },
-        {
-          condition: uiGridConstants.filter.LESS_THAN,
-          placeholder: 'lt<'
-        }];
+        }
+	    ];
+		return filter;
+	}
 	
 	var columnDefs1 = [
 		{name : "firmid"},
@@ -19,8 +23,8 @@ function mainController( $scope, $http, uiGridConstants) {
 		{name : "website"},
 		{name : "city"},
 		{name : "state"},
-		{field : "contacts", filters:numeric_filters},
-		{name : "dayssince"},
+		{field : "contacts", type: "number", filters:makeNumericFilters()},
+		{field : "dayssince", type: "number", filters:makeNumericFilters()},
 		{name : "score"},
 		{name : "tier"},
 		{name : "teamid"}
@@ -57,7 +61,7 @@ function mainController( $scope, $http, uiGridConstants) {
 			$scope.gridData.data = data;
 			$scope.gridData.columnDefs = columnDefs1;
 			$scope.firmCount = data.length;
-            //console.log(data);
+            console.log(data);
         })
         .error(function(data) {
             console.log('Error: ' + data);

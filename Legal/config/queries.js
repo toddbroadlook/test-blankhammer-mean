@@ -1,6 +1,6 @@
 
 var firm_age_size_team_query = "select "+
-	"firms.firmid, name, website, firms.city, firms.state, rs.count contacts, DATEDIFF(CURRENT_TIMESTAMP(),rs.taskstop) dayssince, "+
+	"firms.firmid, name, website, firms.city, firms.state, CONVERT(COALESCE(rs.count,-1), SIGNED INTEGER) contacts, DATEDIFF(CURRENT_TIMESTAMP(),rs.taskstop) dayssince, "+
 	"case "+
 		"when rs.count >= 145 then DATEDIFF(CURRENT_TIMESTAMP(),rs.taskstop) * (select WEIGHT from tiercontrols where tier = 1) "+
 		"when rs.count >= 50 then  DATEDIFF(CURRENT_TIMESTAMP(),rs.taskstop) * (select WEIGHT from tiercontrols where tier = 2) "+
