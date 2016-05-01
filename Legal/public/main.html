@@ -78,6 +78,7 @@
 				    <h3> Current Firms </h3>
 				    <button type="submit" class="btn btn-primary btn-lg" ng-click="clickGetFirmsButton()"> Get Current Firms
 					</button>
+					<h3> {{firmCount}} </h3>
 				</div>
 				<div class="col-md-3">
 					<h3> Search For Firm By Name</h3> 
@@ -101,9 +102,7 @@
 				</div>				
 			</div>
 
-			
-            <h3> Firm Count: {{firmCount}}</h3>
-			<button class= "countButton" ng-mouseenter="rowCount = getFilteredRowCount()" ng-mouseleave="rowCount = 'Filtered Row Count'" ng-init="rowCount = 'Filtered Row Count'"> {{rowCount}} </button>
+			<button class= "countButton" ng-mouseenter="rowCount = getFilteredRowCount()" ng-mouseleave="rowCount = 'Grid Row Count'" ng-init="rowCount = 'Grid Row Count'"> {{rowCount}} </button>
 			
             <div class="spacer"> </div> 
             

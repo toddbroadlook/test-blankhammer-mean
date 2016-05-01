@@ -2,14 +2,24 @@ angular
     .module('legal')
     .controller('mainController', mainController);
 
-function mainController( $scope, $http) {
+function mainController( $scope, $http, uiGridConstants) {
+	var numeric_filters = [
+        {
+          condition: uiGridConstants.filter.GREATER_THAN,
+          placeholder: 'gt>'
+        },
+        {
+          condition: uiGridConstants.filter.LESS_THAN,
+          placeholder: 'lt<'
+        }];
+	
 	var columnDefs1 = [
 		{name : "firmid"},
 		{name : "name"},
 		{name : "website"},
 		{name : "city"},
 		{name : "state"},
-		{name : "contacts"},
+		{field : "contacts", filters:numeric_filters},
 		{name : "dayssince"},
 		{name : "score"},
 		{name : "tier"},

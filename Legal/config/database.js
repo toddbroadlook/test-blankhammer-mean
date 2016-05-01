@@ -6,7 +6,7 @@ var db = {
      connectionLimit : 100, //important
      host     : 'localhost',
      user     : 'root',
-     password : 'redcoats',
+     password : 'lgkiosk',
      database : 'test',
      debug    :  false
  }),
