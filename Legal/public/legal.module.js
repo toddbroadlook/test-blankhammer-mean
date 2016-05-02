@@ -1,1 +1,1 @@
-angular.module('legal', ['auth','ui.grid','ui.grid.exporter']);
+angular.module('legal', ['auth','ui.grid',,'ui.grid.selection','ui.grid.exporter','ui.grid.resizeColumns']);

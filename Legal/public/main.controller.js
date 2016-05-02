@@ -19,15 +19,16 @@ function mainController( $scope, $http, uiGridConstants) {
 	
 	var columnDefs1 = [
 		{name : "firmid"},
-		{name : "name"},
+		{name : "name", width: "20%"},
 		{name : "website"},
-		{name : "city"},
-		{name : "state"},
+		{name : "HQ_City"},
+		{name : "HQ_State"},
 		{field : "contacts", type: "number", filters:makeNumericFilters()},
 		{field : "dayssince", type: "number", filters:makeNumericFilters()},
 		{name : "score"},
-		{name : "tier"},
-		{name : "teamid"}
+		{name : "tier", width: "8%"},
+		{name : "teamid",displayname:"team", width: "8%"},
+		{name : "Flagged"}
 	];
 	
 	$scope.firmCount = '';
@@ -38,11 +39,23 @@ function mainController( $scope, $http, uiGridConstants) {
 		enableFiltering: true,
 		enableGridMenu: true,
 		exporterMenuCsv: true,
+		enableRowSelection: true,
+		multiSelect : false,
+		enableFullRowSelection : true,
 		onRegisterApi: function( gridApi ){
 			//console.log(gridApi);
-			$scope.gridApi = gridApi;},
+			gridApi.selection.on.rowSelectionChanged($scope,function(row){
+			var msg = 'row selected ' + row.isSelected;
+			console.log($scope.gridApi.selection.getSelectedRows());
+			});
+			$scope.gridApi = gridApi;
+			$scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.OPTIONS);
+			},
 		data: []};
     //$scope.gridData.data = mockdata;
+	
+	
+	
 	
 	
     $scope.getFilteredRows=function(){

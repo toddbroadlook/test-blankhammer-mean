@@ -1,6 +1,6 @@
 
 var firm_age_size_team_query = "select "+
-	"firms.firmid, name, website, firms.city, firms.state, CONVERT(COALESCE(rs.count,-1), SIGNED INTEGER) contacts, DATEDIFF(CURRENT_TIMESTAMP(),rs.taskstop) dayssince, "+
+	"firms.firmid, name, website, firms.city HQ_City, firms.state HQ_State, CONVERT(COALESCE(rs.count,-1), SIGNED INTEGER) contacts, DATEDIFF(CURRENT_TIMESTAMP(),rs.taskstop) dayssince, "+
 	"case "+
 		"when rs.count >= 145 then DATEDIFF(CURRENT_TIMESTAMP(),rs.taskstop) * (select WEIGHT from tiercontrols where tier = 1) "+
 		"when rs.count >= 50 then  DATEDIFF(CURRENT_TIMESTAMP(),rs.taskstop) * (select WEIGHT from tiercontrols where tier = 2) "+
@@ -17,7 +17,8 @@ var firm_age_size_team_query = "select "+
 		"when rs.count >= 15 then 5 "+
 		"else 6 "+
     "end as tier,"+
-	"firms.teamid "+
+	"firms.teamid, "+
+	"if(flags.firmid,'Y','N') Flagged "+
 "from FIRMS "+
 "LEFT OUTER JOIN "+
 "FIRMLATESTECLIPSE fle "+
@@ -26,7 +27,7 @@ var firm_age_size_team_query = "select "+
 "ON fle.rsid = rs.rsid "+
 "LEFT OUTER JOIN FLAGS "+
 "ON firms.firmid = flags.firmid "+
-"WHERE active = 1 and flagtype is null "+
+"WHERE active = 1 "+
 "ORDER BY  score DESC;"
 
 var q = {'firm_age_size_team_query': firm_age_size_team_query};
