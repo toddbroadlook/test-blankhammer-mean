@@ -61,6 +61,32 @@ function query_database_firmname(req,res,firmname) {
          });
    });
  }
+ 
+function query_database_firmnotes(req,res,firmid) {
+     
+     pool.getConnection(function(err,connection){
+         if (err) {
+           connection.release();
+           res.json({"code" : 100, "status" : "Error in connection database"});
+           return;
+         }   
+ 
+         console.log('connected as id notes' + connection.threadId);
+         
+         connection.query("SELECT noteid, userid, text, datetime from notes where firmid = " + firmid ,function(err,rows){
+             connection.release();
+             if(!err) {
+                 res.json(rows);
+				 //console.log(rows);
+             }           
+         });
+ 
+         connection.on('error', function(err) {      
+               res.json({"code" : 100, "status" : "Error in connection database"});
+               return;     
+         });
+   });
+ }
 
  function database_firmcreate(req,res,firm) {
      
@@ -132,6 +158,11 @@ router.use(isAdmin)
           console.log("Name " + req.params.name);
           query_database_firmname(req,res,req.params.name);
   });
+  
+  router.get("/getFirmNotes/:firmid", function(req,res){
+          //console.log("Name " + req.params.name);
+          query_database_firmnotes(req,res,req.params.firmid);
+  });
 
   router.post('/firm', function(req,res) {
           console.log("Adding a firm");
@@ -149,7 +180,8 @@ function isLoggedIn(req, res, next) {
     return next();
   console.log("Auth fail");
   // if they aren't redirect them to the home page
-  res.redirect('/home');
+  res.send(401);
+  //res.redirect('/home');
 }
 
 function isAdmin(req, res, next) {

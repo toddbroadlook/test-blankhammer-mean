@@ -31,10 +31,17 @@ function mainController( $scope, $http, uiGridConstants) {
 		{name : "Flagged"}
 	];
 	
+	var columnDefs2 = [
+		{name : "noteid"},
+		{name : "userid", width: "20%"},
+		{name : "text"},
+		{name : "datetime"}
+	];
+	
 	$scope.firmCount = '';
 	
 	
-	$scope.gridData = {
+	$scope.firmInspectGridData = {
 		columnDefs: columnDefs1,
 		enableFiltering: true,
 		enableGridMenu: true,
@@ -45,17 +52,46 @@ function mainController( $scope, $http, uiGridConstants) {
 		onRegisterApi: function( gridApi ){
 			//console.log(gridApi);
 			gridApi.selection.on.rowSelectionChanged($scope,function(row){
-			var msg = 'row selected ' + row.isSelected;
+
 			console.log($scope.gridApi.selection.getSelectedRows());
+			var sel_rows = $scope.gridApi.selection.getSelectedRows();
+			
+			if(sel_rows.length > 0)
+			{
+				$scope.rowIsSelected = true;
+				$scope.selectedRow = sel_rows[0];
+				$scope.selectedFirmId = $scope.selectedRow.firmid;
+				$scope.getFirmNotes($scope.selectedFirmId, function(data){$scope.firmNotesGridData.data = data;console.log("update my notes");});
+			    //$scope.firmNotesGridData.columnDefs = columnDefs2;
+				
+			}
+			else {
+				$scope.rowIsSelected = false;
+				$scope.firmNotesGridData.data = [];
+			}
 			});
+			
+
+			
 			$scope.gridApi = gridApi;
 			$scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.OPTIONS);
 			},
 		data: []};
-    //$scope.gridData.data = mockdata;
+    //$scope.firmInspectGridData.data = mockdata;
 	
+	$scope.firmNotesGridData = {
+		columnDefs: columnDefs2,
+		enableFiltering: false,
+		enableGridMenu: false,
+		exporterMenuCsv: true,
+		enableRowSelection: true,
+		multiSelect : false,
+		enableFullRowSelection : true,
+		data: []};
 	
-	
+	$scope.rowIsSelected = false;
+	$scope.selectedRow = {};
+	$scope.selectedFirmId = 0;
 	
 	
     $scope.getFilteredRows=function(){
@@ -67,12 +103,15 @@ function mainController( $scope, $http, uiGridConstants) {
 	$scope.getFilteredRowCount= function(){ return $scope.getFilteredRows().length;};
     
     $scope.nameForLegalSearch = "";
-    // when landing on the page, get all todos and show them
+
+	/////////////////////////////
+	//Database accessing frontend functions
+	/////////////////////////////
     $scope.clickGetFirmsButton = function() { $http.get('/retrieveFirms')
         .success(function(data) {
             //$scope.firms = data;
-			$scope.gridData.data = data;
-			$scope.gridData.columnDefs = columnDefs1;
+			$scope.firmInspectGridData.data = data;
+			$scope.firmInspectGridData.columnDefs = columnDefs1;
 			$scope.firmCount = data.length;
             console.log(data);
         })
@@ -88,8 +127,8 @@ function mainController( $scope, $http, uiGridConstants) {
 
         $http.get('/searchFirms/' + searchFirm )
         .success(function(data) {
-            $scope.gridData.data = data;
-			$scope.gridData.columnDefs = columnDefs1;
+            $scope.firmInspectGridData.data = data;
+			$scope.firmInspectGridData.columnDefs = columnDefs1;
 			$scope.firmCount = data.length;
             //console.log(data);
         })
@@ -121,7 +160,20 @@ function mainController( $scope, $http, uiGridConstants) {
 
         $scope.reset();
     };
+	
+	$scope.getFirmNotes = function(firmid, callback) {
+		
+        $http.get('/getFirmNotes/' + firmid )
+        .success(function(data) {
+			//$scope.firmCount = data.length;
+            //console.log("notes"+data);
+			callback(data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+    })};
 
+	////////////////////////////////////////////////////
 
     $scope.reset = function() { 
         $scope.firmadd.name = "";

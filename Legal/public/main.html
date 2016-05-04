@@ -35,7 +35,7 @@
 
 </head>
 
-<body ng-controller="mainController">
+<body ng-controller="mainController" class="full">
 	<!--Login Form -->
 
     <div class="row" ng-controller="authController">
@@ -68,7 +68,7 @@
 	
     <div class="row">
         <div class="col-md-1"></div>
-        <div class="col-md-9">
+        <div class="col-md-10">
 
             <!--<div class="container">
                 {{firms}}
@@ -106,7 +106,7 @@
 			
             <div class="spacer"> </div> 
             
-            <div ui-grid="gridData" ui-grid-selection ui-grid-exporter ui-grid-resize-columns class="myGrid"></div>
+            <div ui-grid="firmInspectGridData" ui-grid-selection ui-grid-exporter ui-grid-resize-columns class="firmInspectGrid"></div>
             
 
             
@@ -121,14 +121,23 @@
             <div class="spacer"> </div> 
 
 
-            <div class="panel panel-default">
-                <div class="panel-body">
 
-                </div>
-            </div>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-1"></div>
     </div>
+	
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-3">
+			<div class="panel panel-info">
+				<div class="panel-heading">Firm Notes</div>
+				<div class="panel-body">
+					<div ui-grid="firmNotesGridData" ui-grid-selection ui-grid-exporter ui-grid-resize-columns class="firmDetailGrid"></div>
+				</div>
+			</div>
+		</div>
+    
+	</div>
 
 
 
