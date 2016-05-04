@@ -32,10 +32,10 @@ function mainController( $scope, $http, uiGridConstants) {
 	];
 	
 	var columnDefs2 = [
-		{name : "noteid"},
-		{name : "userid", width: "20%"},
+		{name : "noteid", width:"10%"},
+		{name : "userid", width: "10%"},
 		{name : "text"},
-		{name : "datetime"}
+		{name : "datetime", width: "15%"}
 	];
 	
 	$scope.firmCount = '';

@@ -1,13 +1,13 @@
 .firmInspectGrid {
     min-width: 700px;
-	width:100%
+	width:100%;
     height: 500px;
   }
   
 .firmDetailGrid {
 	min-width: 300px;
-	width:100%
-	height: 300px;
+	width:100%;
+	height: 150px;
 }
  
  
