@@ -3,6 +3,9 @@ angular
     .controller('mainController', mainController);
 
 function mainController( $scope, $http, uiGridConstants) {
+	///////////////////
+	//Utilities
+	///////////////////
 	function makeNumericFilters() {
 		var filter = [
 	    {
@@ -16,6 +19,27 @@ function mainController( $scope, $http, uiGridConstants) {
 	    ];
 		return filter;
 	}
+	function search(key,value, myArray){
+		//console.log(myArray)
+	    for (var i=0; i < myArray.length; i++) {
+			if (myArray[i][key] === value) {
+				return myArray[i];
+			}
+		}
+	}
+	//////// End Utilities
+	
+	//////////////////////
+	//Init
+	//////////////////////
+	$scope.firmCount = '';
+	$scope.flags = {'flag1':false, 'flag2':false,'flag3':false};
+	$scope.rowIsSelected = false;
+	$scope.selectedRow = {};
+	$scope.selectedFirmId = 0;
+	$scope.researchSessionData = {};
+	
+	/////////////////// End Init
 	
 	var columnDefs1 = [
 		{name : "firmid"},
@@ -38,8 +62,9 @@ function mainController( $scope, $http, uiGridConstants) {
 		{name : "datetime", width: "15%"}
 	];
 	
-	$scope.firmCount = '';
+
 	
+
 	
 	$scope.firmInspectGridData = {
 		columnDefs: columnDefs1,
@@ -53,7 +78,7 @@ function mainController( $scope, $http, uiGridConstants) {
 			//console.log(gridApi);
 			gridApi.selection.on.rowSelectionChanged($scope,function(row){
 
-			console.log($scope.gridApi.selection.getSelectedRows());
+			//console.log($scope.gridApi.selection.getSelectedRows());
 			var sel_rows = $scope.gridApi.selection.getSelectedRows();
 			
 			if(sel_rows.length > 0)
@@ -63,11 +88,34 @@ function mainController( $scope, $http, uiGridConstants) {
 				$scope.selectedFirmId = $scope.selectedRow.firmid;
 				$scope.getFirmNotes($scope.selectedFirmId, function(data){$scope.firmNotesGridData.data = data;console.log("update my notes");});
 			    //$scope.firmNotesGridData.columnDefs = columnDefs2;
-				
+				$scope.flags = {'flag1':false, 'flag2':false,'flag3':false};
+				$scope.getFirmFlags($scope.selectedFirmId, 
+					function(data){
+						$scope.flags['flag1'] = search('flagtype',1,data) ? 1 : 0; 
+						$scope.flags['flag2'] = search('flagtype',2,data) ? 1 : 0; 
+						$scope.flags['flag3'] = search('flagtype',3,data) ? 1 : 0; 
+						if($scope.flags['flag1'])
+							$scope.flags['flag1_date'] = search('flagtype',1,data)['datetime']; 
+						if($scope.flags['flag2'])
+							$scope.flags['flag2_date'] = search('flagtype',2,data)['datetime'];
+						if($scope.flags['flag3'])
+							$scope.flags['flag3_date'] = search('flagtype',3,data)['datetime'];						
+						console.log("update my flags");
+						
+					});
+				$scope.getFirmResearchSessions($scope.selectedFirmId,
+					function(data){
+						$scope.researchSessionData = data;
+						console.log(data);
+						console.log("update my research sessions");
+					});
 			}
 			else {
 				$scope.rowIsSelected = false;
 				$scope.firmNotesGridData.data = [];
+				$scope.flags = {'flag1':false, 'flag2':false,'flag3':false};
+				$scope.researchSessionData = {};
+				console.log("flags cleared");
 			}
 			});
 			
@@ -89,9 +137,7 @@ function mainController( $scope, $http, uiGridConstants) {
 		enableFullRowSelection : true,
 		data: []};
 	
-	$scope.rowIsSelected = false;
-	$scope.selectedRow = {};
-	$scope.selectedFirmId = 0;
+
 	
 	
     $scope.getFilteredRows=function(){
@@ -103,7 +149,7 @@ function mainController( $scope, $http, uiGridConstants) {
 	$scope.getFilteredRowCount= function(){ return $scope.getFilteredRows().length;};
     
     $scope.nameForLegalSearch = "";
-
+	
 	/////////////////////////////
 	//Database accessing frontend functions
 	/////////////////////////////
@@ -113,7 +159,7 @@ function mainController( $scope, $http, uiGridConstants) {
 			$scope.firmInspectGridData.data = data;
 			$scope.firmInspectGridData.columnDefs = columnDefs1;
 			$scope.firmCount = data.length;
-            console.log(data);
+            //console.log(data);
         })
         .error(function(data) {
             console.log('Error: ' + data);
@@ -135,6 +181,17 @@ function mainController( $scope, $http, uiGridConstants) {
         .error(function(data) {
             console.log('Error: ' + data);
         })};
+	
+	$scope.getFirmResearchSessions = function(firmid, callback)  {
+		$http.get('/getFirmRS/' + firmid )
+        .success(function(data) {
+			//$scope.firmCount = data.length;
+            //console.log("notes"+data);
+			callback(data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+    })};
 
     $scope.addFirm = function() { 
         if(!($scope.firmadd && $scope.firmadd.name.length > 1))
@@ -164,6 +221,18 @@ function mainController( $scope, $http, uiGridConstants) {
 	$scope.getFirmNotes = function(firmid, callback) {
 		
         $http.get('/getFirmNotes/' + firmid )
+        .success(function(data) {
+			//$scope.firmCount = data.length;
+            //console.log("notes"+data);
+			callback(data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+    })};
+	
+	$scope.getFirmFlags = function(firmid, callback) {
+		
+        $http.get('/getFirmFlags/' + firmid )
         .success(function(data) {
 			//$scope.firmCount = data.length;
             //console.log("notes"+data);

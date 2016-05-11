@@ -8,6 +8,8 @@
 
     <title>Legal Information App</title>
 
+	<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+	
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"><!-- load bootstrap css -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script><!-- load bootstrap js -->
@@ -128,17 +130,55 @@
 	
 	<div class="row">
 		<div class="col-md-1"></div>
-		<div class="col-md-10">
-			<div class="panel panel-info">
+		<div class="col-md-8">
+			<div class="panel panel-primary">
 				<div class="panel-heading">Firm Notes</div>
 				<div class="panel-body">
 					<div ui-grid="firmNotesGridData" ui-grid-selection ui-grid-exporter ui-grid-resize-columns class="firmDetailGrid"></div>
 				</div>
 			</div>
+
 		</div>
+		<div class="col-md-2">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Flags</div>
+				<div class="panel-body">
+					<table class="table">
+						<tbody>
+							<tr ng-class="flags.flag1 ? 'flag-annunciator-on' : 'flag-annunciator-off'"><td>Type1</td><td ng-bind="flags.flag1_date | date:'yyyy-MM-dd'"></td> </tr>
+							<tr ng-class="flags.flag2 ? 'flag-annunciator-on' : 'flag-annunciator-off'"><td>Type2</td><td ng-bind="flags.flag2_date | date:'yyyy-MM-dd'"></td> </tr>
+							<tr ng-class="flags.flag3 ? 'flag-annunciator-on' : 'flag-annunciator-off'"><td>Type3</td><td ng-bind="flags.flag3_date | date:'yyyy-MM-dd'"></td> </tr>
+						</tbody>
+					</table>
+					<!--<div ui-grid="firmResearchSessionsGridData" ui-grid-selection ui-grid-exporter ui-grid-resize-columns class="firmDetailGrid"></div> -->
+				</div>
+			</div>
+		</div>
+
 		<div class="col-md-1"></div>
     
 	</div>
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">	
+				<div class="panel panel-primary">
+				<div class="panel-heading">Firm Research Sessions</div>
+				<div class="panel-body">
+					<table class="table-striped">
+					  <tr ng-repeat="x in researchSessionData">
+						<td>{{ x.RSID }}</td>
+						<td>{{ x.UserID }}</td>
+						<td>{{ x.JobStart }}</td>
+						<td>{{ x.JobStop }}</td>
+						<td>{{ x.Type }}</td>
+						<td>{{ x.Count }}</td>
+					  </tr>
+					</table>
+				    
+				</div>
+			</div>
+		</div>
+    </div>
 
 
 

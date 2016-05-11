@@ -87,6 +87,59 @@ function query_database_firmnotes(req,res,firmid) {
          });
    });
  }
+ 
+ function query_database_firm_research_sessions(req,res,firmid) {
+     
+     pool.getConnection(function(err,connection){
+         if (err) {
+           connection.release();
+           res.json({"code" : 100, "status" : "Error in connection database"});
+           return;
+         }   
+ 
+         console.log('connected as id rs' + connection.threadId);
+         
+         connection.query("SELECT * from researchsessions where firmid = " + firmid ,function(err,rows){
+             connection.release();
+             if(!err) {
+                 res.json(rows);
+				 //console.log(rows);
+             }           
+         });
+ 
+         connection.on('error', function(err) {      
+               res.json({"code" : 100, "status" : "Error in connection database"});
+               return;     
+         });
+   });
+ }
+ 
+ 
+ function query_database_firmflags(req,res,firmid) {
+     
+     pool.getConnection(function(err,connection){
+         if (err) {
+           connection.release();
+           res.json({"code" : 100, "status" : "Error in connection database"});
+           return;
+         }   
+ 
+         console.log('connected as id notes' + connection.threadId);
+         
+         connection.query("SELECT flagtype, userid, datetime from flags where firmid = " + firmid ,function(err,rows){
+             connection.release();
+             if(!err) {
+                 res.json(rows);
+				 //console.log(rows);
+             }           
+         });
+ 
+         connection.on('error', function(err) {      
+               res.json({"code" : 100, "status" : "Error in connection database"});
+               return;     
+         });
+   });
+ }
 
  function database_firmcreate(req,res,firm) {
      
@@ -162,6 +215,17 @@ router.use(isAdmin)
   router.get("/getFirmNotes/:firmid", function(req,res){
           //console.log("Name " + req.params.name);
           query_database_firmnotes(req,res,req.params.firmid);
+  });
+
+  router.get("/getFirmFlags/:firmid", function(req,res){
+          //console.log("Name " + req.params.name);
+          query_database_firmflags(req,res,req.params.firmid);
+  });
+  
+  router.get("/getFirmRS/:firmid", function(req,res){
+		//console.log("Name " + req.params.name);
+      
+		query_database_firm_research_sessions(req,res,req.params.firmid);
   });
 
   router.post('/firm', function(req,res) {
