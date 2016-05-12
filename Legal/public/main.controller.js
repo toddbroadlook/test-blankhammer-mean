@@ -39,6 +39,7 @@ function mainController( $scope, $http, uiGridConstants) {
 	$scope.selectedFirmId = 0;
 	$scope.researchSessionData = {};
 	
+	
 	/////////////////// End Init
 	
 	var columnDefs1 = [
@@ -248,5 +249,8 @@ function mainController( $scope, $http, uiGridConstants) {
         $scope.firmadd.name = "";
         $scope.firmadd.url = "";
     };
+	
+	//Get page ready on refresh
+	$scope.clickGetFirmsButton();
 
 }

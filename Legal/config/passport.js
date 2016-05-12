@@ -22,15 +22,15 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        //console.log("serialize user" + user.id);
-        done(null, user.id);
+        console.log("serialize user" + user.username);
+        done(null, {"id":user.id, "username":user.username});
 
     });
 
     // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
+    passport.deserializeUser(function(user, done) {
         //console.log("deserialize user");
-        connection.query("SELECT * FROM login_users WHERE id = ? ",[id], function(err, rows){
+        connection.query("SELECT * FROM login_users WHERE id = ? ",[user.id], function(err, rows){
             done(err, rows[0]);
         });
     });

@@ -201,6 +201,12 @@ var authorization = require('./authorization.js');
 
 router.use(isLoggedIn)
 router.use(isAdmin)
+
+  router.get("/getCurrentUser", function(req,res){
+	console.log(req.session.passport)  
+	res.json({"code" : 100, "username": req.session.passport.user.username})  
+  });
+  
   router.get("/retrieveFirms", function(req,res){
 
 		handle_database(req,res);
@@ -251,7 +257,7 @@ function isLoggedIn(req, res, next) {
 function isAdmin(req, res, next) {
 
   // if user is authenticated in the session, carry on
-  authorization.checkUserAccess(req.session.passport.user, 'admin', function(isAdmin) {
+  authorization.checkUserAccess(req.session.passport.user.id, 'admin', function(isAdmin) {
     if(isAdmin){
 		console.log("Authorized");
 		return next();

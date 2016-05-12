@@ -16,18 +16,10 @@
 	height: 50px;
 }
 
-table-striped, th , td {
-  border: 1px solid grey;
-  border-collapse: collapse;
-  padding: 5px;
+#firm-research-sessions-div {
+	height:400px;
+	overflow-y: scroll;
 }
-table-striped tr:nth-child(odd) {
-  background-color: #f1f1f1;
-}
-table-striped tr:nth-child(even) {
-  background-color: #ffffff;
-}
-
 
 .full {
   background: url("http://localhost:8020/background4.png") no-repeat center center fixed; 
@@ -37,7 +29,7 @@ table-striped tr:nth-child(even) {
   background-size: cover;
 }
 
-.flag-annunciator-off { font-size: 20px; line-spacing:0em; background-color: green;}
-.flag-annunciator-on { font-size: 20px; line-spacing:0em; background-color: red;}
+.flag-annunciator-off { font-size: 20px; line-spacing:0em; background-color: #B0F136;}
+.flag-annunciator-on { font-size: 20px; line-spacing:0em; background-color: #FF3F3A;}
 
 
