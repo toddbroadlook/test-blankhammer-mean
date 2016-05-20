@@ -56,8 +56,10 @@ module.exports = function(passport) {
             //console.log(username);
             //console.log(password);
             connection.query("SELECT * FROM login_users WHERE username = ?",[username], function(err, rows) {
-                if (err)
-                    return done(err);
+                if (err){
+                    console.log("DB query for registration failed");
+		    return done(err);
+		}
                 if (rows.length) {
                     console.log("Got into signup3");
                     //console.log(req);

@@ -14,6 +14,7 @@ module.exports.checkUserAccess = function(userid, privilege,done) {
         //console.log('connected as id ' + connection.threadId);
          
         connection.query("SELECT * FROM user_authorization WHERE id = ? ",[userid], function(err, rows){
+                        connection.release();
 			//console.log("sent authorize query")
 			//console.log(rows)
 			if (rows.length < 1)

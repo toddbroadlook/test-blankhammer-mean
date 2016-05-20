@@ -8,16 +8,17 @@
  var db =           require('./config/database.js');
  var pool =         db.pool;
  var queries =      require('./config/queries.js')
+ var settings =     require('./settings.cfg') 
  //var User = require('./models/user.js');
 
  
- function handle_database(req,res) {
+ function query_database_firms(req,callback) {
     //console.log(db);
     //console.log(pool);
      pool.getConnection(function(err,connection){
          if (err) {
            connection.release();
-           res.json({"code" : 100, "status" : "Error in connection database"});
+           callback({"code" : 100, "status" : "Error in connection database"});
            return;
          }   
  
@@ -26,12 +27,12 @@
          connection.query(queries.firm_age_size_team_query ,function(err,rows){
              connection.release();
              if(!err) {
-                 res.json(rows);
+               callback(rows);
              }           
          });
  
          connection.on('error', function(err) {      
-               res.json({"code" : 100, "status" : "Error in connection database"});
+               callback({"code" : 100, "status" : "Error in connection database"});
                return;     
          });
    });
@@ -169,6 +170,7 @@ function query_database_firmnotes(req,res,firmid) {
  
  
 //Router config
+var hour = 3600000;
 router.use(express.static('public'));
 router.use(express.static('node_modules'));
 router.use(require('cookie-parser')());
@@ -176,10 +178,11 @@ router.use(require('body-parser').urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.use(require('express-session')({
   //dd if=/dev/urandom bs=1 count=32 2>/dev/null | base64 -w 0 | rev | cut -b 2- | rev
-    secret: 'ygzVmA1uIMf51x5e1pB10QH8yX9iBCjMKag7tL4A7Lk',
+    secret: settings.serverSecret,
     resave: true,
     saveUninitialized: true,
-    cookie : {}
+    cookie : {maxAge:(hour*24)},
+    name : 'blankhammer'
 }));
 
 
@@ -208,9 +211,7 @@ router.use(isAdmin)
   });
   
   router.get("/retrieveFirms", function(req,res){
-
-		handle_database(req,res);
-
+          query_database_firms(req, function(r){res.json(r);});
   });
 
   router.get("/searchFirms/:name", function(req,res){

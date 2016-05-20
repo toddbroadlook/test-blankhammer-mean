@@ -1,18 +1,18 @@
 var mysql = require('mysql');
+var settings = require('../settings.cfg');
 
 var db = {
 
-	pool : mysql.createPool({
+        pool : mysql.createPool({
      connectionLimit : 100, //important
-     host     : 'localhost',
-     user     : 'root',
-     password : 'lgkiosk',
-     database : 'test',
+     host     :  settings.lgDatabaseHost,
+     user     :  settings.lgDatabaseUser,
+     password :  settings.lgDatabasePassword,
+     database : 'legalgate',
      debug    :  false
  }),
 
- database : 'test',
- users_table : 'users'
+ database : 'legalgate'
 };
 
 module.exports = db;
@@ -26,3 +26,5 @@ CREATE table firms (id MEDIUMINT NOT NULL AUTO_INCREMENT, firmname varchar(255),
 
 CREATE table user_authorization (id MEDIUMINT NOT NULL, admin MEDIUMINT);
 */
+
+
