@@ -11,10 +11,31 @@
  var settings =     require('./settings.cfg') 
  //var User = require('./models/user.js');
 
+ function make_query(query,callback){
+	 pool.getConnection(function(err,connection){
+	 if (err) {
+	   connection.release();
+	   callback({"code" : 100, "status" : "Error in connection database"});
+	   return;
+	 }   
+
+	 console.log('connected as id ' + connection.threadId);
+	 
+	 connection.query(query, function(err,rows){
+		 connection.release();
+		 if(!err) {
+		   callback(rows);
+		 }           
+	 });
+   });
+	
+ }
  
- function query_database_firms(req,callback) {
+ 
+ function query_database_firms(callback) {
     //console.log(db);
     //console.log(pool);
+	
      pool.getConnection(function(err,connection){
          if (err) {
            connection.release();
@@ -211,12 +232,13 @@ router.use(isAdmin)
   });
   
   router.get("/retrieveFirms", function(req,res){
-          query_database_firms(req, function(r){res.json(r);});
+	make_query(queries.firm_age_size_team_query, function(r){res.json(r);})
+          //query_database_firms(function(r){res.json(r);});
   });
 
   router.get("/searchFirms/:name", function(req,res){
-          console.log("Name " + req.params.name);
-          query_database_firmname(req,res,req.params.name);
+	console.log("Name " + req.params.name);
+	make_query(firm_name_query(req.params.name), function(r){res.json(r);})
   });
   
   router.get("/getFirmNotes/:firmid", function(req,res){
