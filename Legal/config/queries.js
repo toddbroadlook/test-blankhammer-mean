@@ -33,6 +33,6 @@ var firm_age_size_team_query = "select "+
 
 function firm_name_query(firmname){ return "SELECT firmid, name, website, city, state, postalcode from firms where name like \"%" + firmname +  "%\" and active=1" }
 
-var q = {'firm_age_size_team_query': firm_age_size_team_query};
+var q = {'firm_age_size_team_query': firm_age_size_team_query, 'firm_name_query':firm_name_query};
 
 module.exports = q;
