@@ -77,34 +77,35 @@
             </div>-->
             <div class="row">
 				<div class="col-md-3">
-				    <h3> Current Firms </h3>
-				    <button type="submit" class="btn btn-primary btn-lg" ng-click="clickGetFirmsButton()"> Get Current Firms
+				    <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="clickGetFirmsButton()"> Load Current Firms
 					</button>
-					<h3> {{firmCount}} </h3>
-				</div>
-				<div class="col-md-3">
-					<h3> Search For Firm By Name</h3> 
-					<div>
-						<input ng-model="nameForLegalSearch"></input>
-					</div>
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="clickSearchFirmsButton(nameForLegalSearch)"> Search for Firm</button>
 				</div>
 				<div class="col-md-3">				
-				    <h3> Add New Firm</h3>
+				    <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="clickGetFirmsButton()"> New Firm
+					</button>
+				</div>	
+				<div class="col-md-3">				
                     <form novalidate>
-                        Firm Name:<br>
-                        <input type="text" ng-model="firmadd.name"><br>
-                        Firm URL:<br>
-                        <input type="text" ng-model="firmadd.url"> <br>
-                        <div class="spacer"> </div> 
-                        <button ng-click="addFirm()">ADD</button>
-                        <button ng-click="reset()">RESET</button>
-                  </form>
+                        Firm Name:
+                        <input class="form-control" type="text" ng-model="firmadd.name"><br>
+                        Firm URL:
+                        <input class="form-control" type="text" ng-model="firmadd.url"> <br>
+					</form>
                   <h3>{{firmaddresult}}</h3>
-				</div>				
+				</div>	
+				<div class="col-md-3">				
+				    <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="addFirm()"> Save New Firm</button>
+					<button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="reset()"> Cancel</button>
+				</div>					
 			</div>
-
-			<button class= "countButton" ng-mouseenter="rowCount = getFilteredRowCount()" ng-mouseleave="rowCount = 'Grid Row Count'" ng-init="rowCount = 'Grid Row Count'"> {{rowCount}} </button>
+			<div class="row">
+				<div class="col-md-3">
+					<button class= "countButton" ng-mouseenter="rowCount = getFilteredRowCount()" ng-mouseleave="rowCount = 'Grid Row Count'" ng-init="rowCount = 'Grid Row Count'"> {{rowCount}} </button>
+				</div>
+				<div class="col-md-3">
+					<h3> Total Firms:{{firmCount}} </h3>
+				</div>
+			</div>
 			
             <div class="spacer"> </div> 
             

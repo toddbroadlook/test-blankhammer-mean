@@ -174,15 +174,19 @@ function query_database_firmnotes(req,res,firmid) {
  
          console.log('create connected as id ' + connection.threadId);
          
-         connection.query("insert into firms (firmname,url) values (\""+ firm.name +"\",\""+ firm.url + "\")" ,function(err,rows){
+         connection.query("insert into firms (name,website,active,isNew) values (\""+ firm.name +"\",\""+ firm.url + "\",1,1 )" ,function(err,rows){
              connection.release();
              if(!err) {
                  res.json(rows);
-             }           
+				 console.log('no error' + rows);
+             } else {       
+				console.log('error' + err);
+			 }
          });
  
          connection.on('error', function(err) {      
                res.json({"code" : 100, "status" : "Error in connection database"});
+			   console.log('error' + connection.threadId);
                return;     
          });
    });
@@ -258,7 +262,7 @@ router.use(isAdmin)
   });
 
   router.post('/firm', function(req,res) {
-          console.log("Adding a firm");
+          console.log("Adding a firm" + req.body.name + "  " + req.body.url);
           var firm = {"name" : req.body.name, "url": req.body.url};
           database_firmcreate(req,res, firm);
  });

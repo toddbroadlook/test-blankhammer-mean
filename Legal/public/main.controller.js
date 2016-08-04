@@ -166,22 +166,22 @@ function mainController( $scope, $http, uiGridConstants) {
             console.log('Error: ' + data);
         })};
 
-    $scope.clickSearchFirmsButton = function(searchFirm) { 
-        if(searchFirm.length < 1)
-        {
-            return;
-        }
-
-        $http.get('/searchFirms/' + searchFirm )
-        .success(function(data) {
-            $scope.firmInspectGridData.data = data;
-			$scope.firmInspectGridData.columnDefs = columnDefs1;
-			$scope.firmCount = data.length;
-            //console.log(data);
-        })
-        .error(function(data) {
-            console.log('Error: ' + data);
-        })};
+//    $scope.clickSearchFirmsButton = function(searchFirm) { 
+//        if(searchFirm.length < 1)
+//        {
+//            return;
+//        }
+//
+//        $http.get('/searchFirms/' + searchFirm )
+//        .success(function(data) {
+//            $scope.firmInspectGridData.data = data;
+//			$scope.firmInspectGridData.columnDefs = columnDefs1;
+//			$scope.firmCount = data.length;
+//            //console.log(data);
+//        })
+//        .error(function(data) {
+//            console.log('Error: ' + data);
+//        })};
 	
 	$scope.getFirmResearchSessions = function(firmid, callback)  {
 		$http.get('/getFirmRS/' + firmid )
