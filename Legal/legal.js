@@ -35,7 +35,7 @@
  function query_database_firms(callback) {
     //console.log(db);
     //console.log(pool);
-	
+	/*
      pool.getConnection(function(err,connection){
          if (err) {
            connection.release();
@@ -56,12 +56,13 @@
                callback({"code" : 100, "status" : "Error in connection database"});
                return;     
          });
-   });
+   });*/
+   make_query(queries.firm_age_size_team_query, callback);
  }
 
 function query_database_firmname(req,res,firmname) {
      
-     pool.getConnection(function(err,connection){
+    /*pool.getConnection(function(err,connection){
          if (err) {
            connection.release();
            res.json({"code" : 100, "status" : "Error in connection database"});
@@ -81,12 +82,15 @@ function query_database_firmname(req,res,firmname) {
                res.json({"code" : 100, "status" : "Error in connection database"});
                return;     
          });
-   });
+   });*/
+   
+   query = "SELECT firmid, name, website, city, state, postalcode from firms where name like \"%" + firmname +  "%\" and active=1";
+   make_query(query, function (rows){res.json(rows)} );
  }
  
 function query_database_firmnotes(req,res,firmid) {
      
-     pool.getConnection(function(err,connection){
+    /*pool.getConnection(function(err,connection){
          if (err) {
            connection.release();
            res.json({"code" : 100, "status" : "Error in connection database"});
@@ -107,7 +111,9 @@ function query_database_firmnotes(req,res,firmid) {
                res.json({"code" : 100, "status" : "Error in connection database"});
                return;     
          });
-   });
+   });*/
+   query = "SELECT noteid, userid, text, datetime from notes where firmid = " + firmid
+   make_query(query, function (rows){res.json(rows)} );
  }
  
  function query_database_firm_research_sessions(req,res,firmid) {

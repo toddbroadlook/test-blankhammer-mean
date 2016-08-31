@@ -38,7 +38,7 @@ function mainController( $scope, $http, uiGridConstants) {
 	$scope.selectedRow = {};
 	$scope.selectedFirmId = 0;
 	$scope.researchSessionData = {};
-	
+	$scope.make_new_firm_show = false;
 	
 	/////////////////// End Init
 	
@@ -63,7 +63,9 @@ function mainController( $scope, $http, uiGridConstants) {
 		{name : "datetime", width: "15%"}
 	];
 	
-
+	$scope.toggleShowAddNewFirms = function(){
+		$scope.make_new_firm_show = !$scope.make_new_firm_show;
+	};
 	
 
 	
@@ -120,7 +122,9 @@ function mainController( $scope, $http, uiGridConstants) {
 			}
 			});
 			
-
+			gridApi.core.on.rowsRendered( $scope, function() {
+				$scope.filteredRowCount = $scope.getFilteredRows().length;
+			});
 			
 			$scope.gridApi = gridApi;
 			$scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.OPTIONS);
@@ -231,6 +235,28 @@ function mainController( $scope, $http, uiGridConstants) {
             console.log('Error: ' + data);
     })};
 	
+	$scope.addFirmNote = function(firmid, callback) {
+		if(!($scope.noteadd && $scope.noteadd.note > 1))
+        {
+            return;
+        }
+
+        var tosend = {"note" : $scope.noteadd.note};
+        $http.post('/firm', tosend)
+        .success(function(data) {
+            $scope.firmaddresult = "Successfully added " + $scope.firmadd.name;
+
+        })
+        .error(function(data) {
+            $scope.firmaddresult = "Failed to add " + $scope.firmadd.name;
+
+        })
+
+        $scope.reset();
+		
+	};
+	
+	
 	$scope.getFirmFlags = function(firmid, callback) {
 		
         $http.get('/getFirmFlags/' + firmid )
@@ -246,8 +272,14 @@ function mainController( $scope, $http, uiGridConstants) {
 	////////////////////////////////////////////////////
 
     $scope.reset = function() { 
-        $scope.firmadd.name = "";
-        $scope.firmadd.url = "";
+	
+		if($scope.firmadd && $scope.firmadd.name){
+			$scope.firmadd.name = "";
+		}
+		if($scope.firmadd && $scope.firmadd.url){
+			$scope.firmadd.url = "";
+		}
+		$scope.make_new_firm_show = false;
     };
 	
 	//Get page ready on refresh
