@@ -235,20 +235,22 @@ function mainController( $scope, $http, uiGridConstants) {
             console.log('Error: ' + data);
     })};
 	
-	$scope.addFirmNote = function(firmid, callback) {
-		if(!($scope.noteadd && $scope.noteadd.note > 1))
+	$scope.addFirmNote = function() {
+		if(!($scope.noteadd && $scope.noteadd.note.length > 1))
         {
             return;
         }
 
-        var tosend = {"note" : $scope.noteadd.note};
-        $http.post('/firm', tosend)
+        var tosend = {"firmid" : $scope.selectedFirmId, "text" : $scope.noteadd.note};
+		console.log('Incoming Note: ' + tosend);
+        $http.post('/addNote', tosend)
         .success(function(data) {
-            $scope.firmaddresult = "Successfully added " + $scope.firmadd.name;
-
+            $scope.firmaddresult = "Successfully added note" + $scope.noteadd.note;
+			$scope.getFirmNotes($scope.selectedFirmId, function(data){$scope.firmNotesGridData.data = data;console.log("update my notes");});
+			$scope.noteadd.note = "";
         })
         .error(function(data) {
-            $scope.firmaddresult = "Failed to add " + $scope.firmadd.name;
+            $scope.firmaddresult = "Failed to add note " + $scope.noteadd.note;
 
         })
 

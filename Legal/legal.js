@@ -12,190 +12,57 @@
  //var User = require('./models/user.js');
 
  function make_query(query,callback){
-	 pool.getConnection(function(err,connection){
-	 if (err) {
-	   connection.release();
-	   callback({"code" : 100, "status" : "Error in connection database"});
-	   return;
-	 }   
+	pool.getConnection(function(err,connection){
+		if (err) {
+		  connection.release();
+		  callback({"code" : 100, "status" : "Error in connection database"});
+		  return;
+		}   
 
-	 console.log('connected as id ' + connection.threadId);
-	 
-	 connection.query(query, function(err,rows){
-		 connection.release();
-		 if(!err) {
-		   callback(rows);
-		 }           
-	 });
-   });
+		console.log('connected as id ' + connection.threadId);
+		
+		connection.query(query, function(err,rows){
+			 connection.release();
+			 if(!err) {
+			   callback(rows);
+			 }           
+		});
+	});
 	
- }
- 
- 
- function query_database_firms(callback) {
-    //console.log(db);
-    //console.log(pool);
-	/*
-     pool.getConnection(function(err,connection){
-         if (err) {
-           connection.release();
-           callback({"code" : 100, "status" : "Error in connection database"});
-           return;
-         }   
- 
-         console.log('connected as id ' + connection.threadId);
-         
-         connection.query(queries.firm_age_size_team_query ,function(err,rows){
-             connection.release();
-             if(!err) {
-               callback(rows);
-             }           
-         });
- 
-         connection.on('error', function(err) {      
-               callback({"code" : 100, "status" : "Error in connection database"});
-               return;     
-         });
-   });*/
-   make_query(queries.firm_age_size_team_query, callback);
  }
 
 function query_database_firmname(req,res,firmname) {
-     
-    /*pool.getConnection(function(err,connection){
-         if (err) {
-           connection.release();
-           res.json({"code" : 100, "status" : "Error in connection database"});
-           return;
-         }   
- 
-         console.log('connected as id ' + connection.threadId);
-         
-         connection.query("SELECT firmid, name, website, city, state, postalcode from firms where name like \"%" + firmname +  "%\" and active=1" ,function(err,rows){
-             connection.release();
-             if(!err) {
-                 res.json(rows);
-             }           
-         });
- 
-         connection.on('error', function(err) {      
-               res.json({"code" : 100, "status" : "Error in connection database"});
-               return;     
-         });
-   });*/
-   
-   query = "SELECT firmid, name, website, city, state, postalcode from firms where name like \"%" + firmname +  "%\" and active=1";
-   make_query(query, function (rows){res.json(rows)} );
+    query = "SELECT firmid, name, website, city, state, postalcode from firms where name like \"%" + firmname +  "%\" and active=1";
+    make_query(query, function (rows){res.json(rows)} );
  }
  
 function query_database_firmnotes(req,res,firmid) {
-     
-    /*pool.getConnection(function(err,connection){
-         if (err) {
-           connection.release();
-           res.json({"code" : 100, "status" : "Error in connection database"});
-           return;
-         }   
- 
-         console.log('connected as id notes' + connection.threadId);
-         
-         connection.query("SELECT noteid, userid, text, datetime from notes where firmid = " + firmid ,function(err,rows){
-             connection.release();
-             if(!err) {
-                 res.json(rows);
-				 //console.log(rows);
-             }           
-         });
- 
-         connection.on('error', function(err) {      
-               res.json({"code" : 100, "status" : "Error in connection database"});
-               return;     
-         });
-   });*/
-   query = "SELECT noteid, userid, text, datetime from notes where firmid = " + firmid
-   make_query(query, function (rows){res.json(rows)} );
+    query = "SELECT noteid, userid, text, datetime from notes where firmid = " + firmid;
+    make_query(query, function (rows){res.json(rows)} );
  }
  
  function query_database_firm_research_sessions(req,res,firmid) {
-     
-     pool.getConnection(function(err,connection){
-         if (err) {
-           connection.release();
-           res.json({"code" : 100, "status" : "Error in connection database"});
-           return;
-         }   
- 
-         console.log('connected as id rs' + connection.threadId);
-         
-         connection.query("SELECT * from researchsessions where firmid = " + firmid ,function(err,rows){
-             connection.release();
-             if(!err) {
-                 res.json(rows);
-				 //console.log(rows);
-             }           
-         });
- 
-         connection.on('error', function(err) {      
-               res.json({"code" : 100, "status" : "Error in connection database"});
-               return;     
-         });
-   });
+    query = "* from researchsessions where firmid = " + firmid;
+    make_query(query, function (rows){res.json(rows)} );
  }
  
  
  function query_database_firmflags(req,res,firmid) {
-     
-     pool.getConnection(function(err,connection){
-         if (err) {
-           connection.release();
-           res.json({"code" : 100, "status" : "Error in connection database"});
-           return;
-         }   
- 
-         console.log('connected as id notes' + connection.threadId);
-         
-         connection.query("SELECT flagtype, userid, datetime from flags where firmid = " + firmid ,function(err,rows){
-             connection.release();
-             if(!err) {
-                 res.json(rows);
-				 //console.log(rows);
-             }           
-         });
- 
-         connection.on('error', function(err) {      
-               res.json({"code" : 100, "status" : "Error in connection database"});
-               return;     
-         });
-   });
+    query = "SELECT flagtype, userid, datetime from flags where firmid = " + firmid;
+    make_query(query, function (rows){res.json(rows)} );
  }
 
  function database_firmcreate(req,res,firm) {
-     
-     pool.getConnection(function(err,connection){
-         if (err) {
-           connection.release();
-           res.json({"code" : 100, "status" : "Error in connection database"});
-           return;
-         }   
+    query = "insert into firms (name,website,active,isNew) values (\""+ firm.name +"\",\""+ firm.url + "\",1,1 )";
+    make_query(query, function (rows){res.json(rows)} );
+   
+ }
  
-         console.log('create connected as id ' + connection.threadId);
-         
-         connection.query("insert into firms (name,website,active,isNew) values (\""+ firm.name +"\",\""+ firm.url + "\",1,1 )" ,function(err,rows){
-             connection.release();
-             if(!err) {
-                 res.json(rows);
-				 console.log('no error' + rows);
-             } else {       
-				console.log('error' + err);
-			 }
-         });
- 
-         connection.on('error', function(err) {      
-               res.json({"code" : 100, "status" : "Error in connection database"});
-			   console.log('error' + connection.threadId);
-               return;     
-         });
-   });
+ function database_addNote(req,res,note) {
+	 //note.firmid, note.note
+    query = "insert into notes (userID,firmID,text,dateTime) values (1,\"" + note.firmid +"\",\""+ note.text + "\",NOW())";
+    make_query(query, function (rows){res.json(rows)} );
+   
  }
 
  
@@ -243,7 +110,6 @@ router.use(isAdmin)
   
   router.get("/retrieveFirms", function(req,res){
 	make_query(queries.firm_age_size_team_query, function(r){res.json(r);})
-          //query_database_firms(function(r){res.json(r);});
   });
 
   router.get("/searchFirms/:name", function(req,res){
@@ -273,6 +139,11 @@ router.use(isAdmin)
           database_firmcreate(req,res, firm);
  });
 
+   router.post('/addNote', function(req,res) {
+          console.log("Adding a note" + req.body.note);
+          var note = {"firmid" : req.body.firmid, "text": req.body.text};
+          database_addNote(req,res, note);
+ });
 
 
 // route middleware to make sure
