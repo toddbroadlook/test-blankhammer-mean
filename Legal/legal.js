@@ -42,7 +42,7 @@ function query_database_firmnotes(req,res,firmid) {
  }
  
  function query_database_firm_research_sessions(req,res,firmid) {
-    query = "* from researchsessions where firmid = " + firmid;
+    query = "SELECT * from researchsessions where firmid = " + firmid;
     make_query(query, function (rows){res.json(rows)} );
  }
  

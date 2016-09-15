@@ -27,6 +27,7 @@ function mainController( $scope, $http, uiGridConstants) {
 			}
 		}
 	}
+	
 	//////// End Utilities
 	
 	//////////////////////
@@ -41,26 +42,26 @@ function mainController( $scope, $http, uiGridConstants) {
 	$scope.make_new_firm_show = false;
 	
 	/////////////////// End Init
+	$scope.someProp = 'abc',
+		$scope.showMe = function(){
+                   alert($scope.someProp);
+                };
 	
-	var columnDefs1 = [
+	var firmInspectGridColumnDefs = [
 		{name : "firmid"},
 		{name : "name", width: "20%"},
 		{name : "website"},
 		{name : "HQ_City"},
 		{name : "HQ_State"},
-		{field : "contacts", type: "number", filters:makeNumericFilters()},
-		{field : "dayssince", type: "number", filters:makeNumericFilters()},
-		{name : "score"},
+		{name : "contacts", type: "number", filters:makeNumericFilters()},
+		{name : "dayssince", type: "number", filters:makeNumericFilters()},
+		{name : "score", type: "number", filters:makeNumericFilters()},
 		{name : "tier", width: "8%"},
 		{name : "teamid",displayname:"team", width: "8%"},
-		{name : "Flagged"}
-	];
-	
-	var columnDefs2 = [
-		{name : "noteid", width:"10%"},
-		{name : "userid", width: "10%"},
-		{name : "text"},
-		{name : "datetime", width: "15%"}
+		{name : "Flagged"},
+		{name: "Edit",
+            cellTemplate:'<button class="btn-block btn-success" ng-click="grid.appScope.showMe()">Edit</button>',
+			enableSorting: false			}
 	];
 	
 	$scope.toggleShowAddNewFirms = function(){
@@ -70,7 +71,7 @@ function mainController( $scope, $http, uiGridConstants) {
 
 	
 	$scope.firmInspectGridData = {
-		columnDefs: columnDefs1,
+		columnDefs: firmInspectGridColumnDefs,
 		enableFiltering: true,
 		enableGridMenu: true,
 		exporterMenuCsv: true,
@@ -132,8 +133,20 @@ function mainController( $scope, $http, uiGridConstants) {
 		data: []};
     //$scope.firmInspectGridData.data = mockdata;
 	
+
+	
+	//////////////////////
+	//Firm Notes Grid
+	//////////////////////
+	var firmNotesGridColumnDefs = [
+		{name : "noteid", width:"10%"},
+		{name : "userid", width: "10%"},
+		{name : "text"},
+		{name : "datetime", width: "15%"}
+	];
+	
 	$scope.firmNotesGridData = {
-		columnDefs: columnDefs2,
+		columnDefs: firmNotesGridColumnDefs,
 		enableFiltering: false,
 		enableGridMenu: false,
 		exporterMenuCsv: true,
@@ -141,9 +154,32 @@ function mainController( $scope, $http, uiGridConstants) {
 		multiSelect : false,
 		enableFullRowSelection : true,
 		data: []};
+		
+	////End Firm Notes Grid
 	
-
+	//////////////////////
+	//Firm Locks Grid
+	//////////////////////
+	var firmLocksGridcolumnDefs = [
+		{name : "Firmid"},
+		{name : "Firm Name"},
+		{name : "Userid"},
+		{name : "User"},
+		{name : "Team"},
+		{name : "Date"}
+	];
 	
+	$scope.firmLocksGridData = {
+		columnDefs: firmLocksGridcolumnDefs,
+		enableFiltering: false,
+		enableGridMenu: false,
+		exporterMenuCsv: true,
+		enableRowSelection: true,
+		multiSelect : false,
+		enableFullRowSelection : true,
+		data: []};
+		
+	////End Firm Notes Grid
 	
     $scope.getFilteredRows=function(){
 		//var _renderedRows = $scope.gridApi.grid.renderContainers.body.renderedRows;
@@ -162,7 +198,7 @@ function mainController( $scope, $http, uiGridConstants) {
         .success(function(data) {
             //$scope.firms = data;
 			$scope.firmInspectGridData.data = data;
-			$scope.firmInspectGridData.columnDefs = columnDefs1;
+			$scope.firmInspectGridData.columnDefs = firmInspectGridColumnDefs;
 			$scope.firmCount = data.length;
             //console.log(data);
         })
